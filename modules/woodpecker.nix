@@ -8,7 +8,7 @@
   # EOF
   # sudo sops --encrypt -i secrets/woodpecker.yaml
   sops.secrets."woodpecker/agent_secret" = {
-    sopsFile = ../secrets/woodpecker.yaml;
+    sopsFile = ../secrets/woodpecker.env;
     owner = config.services.woodpecker.user;
   };
 
@@ -26,7 +26,8 @@
       WOODPECKER_ADMIN = "fred";
       #WOODPECKER_AGENT_SECRET = builtins.readFile config.sops.secrets."woodpecker/agent_secret".path;
     };
-    environmentFile = config.sops.secrets."woodpecker/agent_secret".path;
+    #environmentFile = config.sops.secrets."woodpecker/agent_secret".path;
+    environmentFile = "/run/secrets/woodpecker.env";
   };
 
   # This sets up a woodpecker agent
@@ -44,7 +45,8 @@
       DOCKER_HOST = "unix:///run/podman/podman.sock";
       WOODPECKER_BACKEND = "docker";
     };
-    environmentFile = config.sops.secrets."woodpecker/agent_secret".path;
+    #environmentFile = config.sops.secrets."woodpecker/agent_secret".path;
+    environmentFile = "/run/secrets/woodpecker.env";
   };
 
   # Here we setup podman and enable dns
