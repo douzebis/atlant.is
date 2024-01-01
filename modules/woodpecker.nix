@@ -7,8 +7,8 @@
   #     WOODPECKER_AGENT_SECRET = $(cat /dev/urandom | LC_ALL=C tr -dc 'a-z' | head -c 16)
   # EOF
   # sudo sops --encrypt -i secrets/woodpecker.yaml
-  sops.secrets."woodpecker/environment" = {
-    sopsFile = ../secrets/woodpecker.env;
+  sops.secrets."woodpecker" = {
+    sopsFile = ../secrets/woodpecker.yaml;
 #    owner = config.services.woodpecker.user;
   };
 
