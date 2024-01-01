@@ -17,7 +17,7 @@
     environment = {
       # Enable at first launch
       WOODPECKER_OPEN = "true";
-      WOODPECKER_SERVER_ADDR = ":3007";
+      WOODPECKER_SERVER_ADDR = ":3003";
       WOODPECKER_HOST = "https://woodpecker.douzeb.is";
       WOODPECKER_GITEA = "true";
       WOODPECKER_GITEA_CLIENT = "287fcafa-d7ec-4bce-8ca3-b63415aa538f";
@@ -27,7 +27,7 @@
       #WOODPECKER_AGENT_SECRET = builtins.readFile config.sops.secrets."woodpecker/agent_secret".path;
     };
     #environmentFile = config.sops.secrets."woodpecker/agent_secret".path;
-#    environmentFile = config.sops.secrets."woodpecker/environment".path;
+    environmentFile = config.sops.secrets."woodpecker/environment".path;
   };
 
   # This sets up a woodpecker agent
@@ -45,7 +45,7 @@
       DOCKER_HOST = "unix:///run/podman/podman.sock";
       WOODPECKER_BACKEND = "docker";
     };
-#    environmentFile = config.sops.secrets."woodpecker/environment".path;
+    environmentFile = config.sops.secrets."woodpecker/environment".path;
     #environmentFile = "/run/secrets/woodpecker/environment";
   };
 
