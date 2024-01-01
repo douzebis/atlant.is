@@ -10,15 +10,5 @@
   security.acme = {
     acceptTerms = true;
     defaults.email = "fred@atlant.is";
-
-    #certs."wildcardDomain" = rec {
-    #  #domain = config.services.keycloak.settings.hostname;
-    #  #domain = "2.ruget.org";
-    #  domain = config.custom.ngrok.host;
-    #  extraDomainNames = [ "*.${domain}" ];
-    #  dnsProvider = "ovh";
-    #  dnsPropagationCheck = true;
-    #  credentialsFile = config.sops.secrets."ovh/credentials".path;
-    #};
   };
 }
