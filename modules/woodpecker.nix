@@ -27,7 +27,7 @@
       #WOODPECKER_AGENT_SECRET = builtins.readFile config.sops.secrets."woodpecker/agent_secret".path;
     };
     #environmentFile = config.sops.secrets."woodpecker/agent_secret".path;
-    environmentFile = config.sops.secrets."woodpecker/environment".path;
+    environmentFile = config.sops.secrets."woodpecker/env".path;
   };
 
   # This sets up a woodpecker agent
@@ -45,7 +45,7 @@
       DOCKER_HOST = "unix:///run/podman/podman.sock";
       WOODPECKER_BACKEND = "docker";
     };
-    environmentFile = config.sops.secrets."woodpecker/environment".path;
+    environmentFile = config.sops.secrets."woodpecker/env".path;
     #environmentFile = "/run/secrets/woodpecker/environment";
   };
 
