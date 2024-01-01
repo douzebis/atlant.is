@@ -9,7 +9,7 @@
   # sudo sops --encrypt -i secrets/woodpecker.yaml
   sops.secrets."woodpecker/environment" = {
     sopsFile = ../secrets/woodpecker.env;
-    owner = config.services.woodpecker.user;
+#    owner = config.services.woodpecker.user;
   };
 
   services.woodpecker-server = {
