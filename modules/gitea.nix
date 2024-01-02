@@ -35,7 +35,7 @@
     };
     settings.server = {
       DOMAIN = with { ng = config.custom.ngrok; };
-        "gitea.${ng.prefix}${ng.host}";
+        "gitea.${ng.prefix}${ng.host}:${ng.port}";
       ROOT_URL = with { ng = config.custom.ngrok; };
         "https://gitea.${ng.prefix}${ng.host}:${ng.port}";
       HTTP_ADDR = "127.0.0.1";
@@ -52,7 +52,7 @@
     };
     mailerPasswordFile = config.sops.secrets."captain/email_passwd".path;
     settings.service = {
-      #DISABLE_REGISTRATION = true;
+      DISABLE_REGISTRATION = true;
     };
   };
 

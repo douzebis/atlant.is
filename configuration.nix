@@ -83,6 +83,9 @@
     settings.PasswordAuthentication = false;
   };
 
+  # Enable docker
+  virtualisation.docker.enable = true;
+
   systemd.services.keycloakExportRealms =
   let p = config.systemd.services.keycloak;
   in lib.mkIf config.services.keycloak.enable {

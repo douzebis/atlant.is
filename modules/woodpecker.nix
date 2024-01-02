@@ -9,7 +9,7 @@
   # sudo sops --encrypt -i secrets/woodpecker.yaml
   sops.secrets."woodpecker/env" = {
     sopsFile = ../secrets/woodpecker.yaml;
-#    owner = config.services.woodpecker.user;
+    owner = config.services.nginx.user;
   };
 
   services.woodpecker-server = {
@@ -18,17 +18,17 @@
       # Enable at first launch
       WOODPECKER_OPEN = "true";
       WOODPECKER_SERVER_ADDR = ":3003";
-      WOODPECKER_HOST = "https://woodpecker.douzeb.is";
+      WOODPECKER_HOST = with { ng = config.custom.ngrok; };
+        "https://woodpecker.${ng.prefix}${ng.host}:${ng.port}";
       WOODPECKER_GITEA = "true";
-      WOODPECKER_GITEA_CLIENT = "287fcafa-d7ec-4bce-8ca3-b63415aa538f";
-      WOODPECKER_GITEA_SECRET = "gto_xqmfiblsdypfpkkwksaeyte54mvt27qutenq42lwk33rjrkvr6uq";
-      WOODPECKER_GITEA_URL = "https://gitea.douzeb.is";
+      WOODPECKER_GITEA_CLIENT = "4e01bc36-5e5c-4200-ba69-20cfe4cc011c";
+      WOODPECKER_GITEA_SECRET = "gto_xs4pnmimfhgof6zkfhmvbx3v7omuk2exep6smke5dssnrctcodkq";
+      WOODPECKER_GITEA_URL = with { ng = config.custom.ngrok; };
+        "https://gitea.${ng.prefix}${ng.host}:${ng.port}";
       WOODPECKER_ADMIN = "fred";
-      #WOODPECKER_AGENT_SECRET = builtins.readFile config.sops.secrets."woodpecker/agent_secret".path;
+      # WOODPECKER_AGENT_SECRET is defined in environmentFile
     };
-    #environmentFile = config.sops.secrets."woodpecker/agent_secret".path;
-    #environmentFile = config.sops.secrets."woodpecker/env".path;
-    environmentFile = "/run/secrets/woodpecker/env";
+    environmentFile = [ config.sops.secrets."woodpecker/env".path ];
   };
 
   # This sets up a woodpecker agent
@@ -37,18 +37,17 @@
     # We need this to talk to the podman socket
     extraGroups = [
       "docker"
-      "podman"
+    #  "podman"
     ];
     environment = {
       WOODPECKER_SERVER = "localhost:9000";
-      #WOODPECKER_AGENT_SECRET = builtins.readFile config.sops.secrets."woodpecker/agent_secret".path;
+      # WOODPECKER_AGENT_SECRET is defined in environmentFile
       WOODPECKER_MAX_WORKFLOWS = "4";
-      DOCKER_HOST = "unix:///run/podman/podman.sock";
+      #DOCKER_HOST = "unix:///run/podman/podman.sock";
+      DOCKER_HOST = "unix:///var/run/docker.sock";
       WOODPECKER_BACKEND = "docker";
     };
-    #environmentFile = "/run/secrets/woodpecker/environment";
-    #environmentFile = config.sops.secrets."woodpecker/env".path;
-    environmentFile = "/run/secrets/woodpecker/env";
+    environmentFile = [ config.sops.secrets."woodpecker/env".path ];
   };
 
   # Here we setup podman and enable dns
